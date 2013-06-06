@@ -1,0 +1,5 @@
+Revision history for Perl extension Anansi::Database::PostgreSQL.
+
+0.01  Thu Jun 06 10:55:30 2013
+	- original version; created by h2xs 1.23 with options
+		-AX Anansi::Database::PostgreSQL
