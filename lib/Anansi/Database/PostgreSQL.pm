@@ -106,7 +106,7 @@ L<Anansi::DatabaseComponent> and L<base>.
 =cut
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use base qw(Anansi::DatabaseComponent);
 
@@ -213,17 +213,25 @@ saved by default.
 
 =item DATABASE I<(String, Optional)>
 
-The name of the PostgreSQL database.  The I<pg> B<DATABASE> is used by default.
+The name of the PostgreSQL database.  The content of the I<PGDATABASE>
+environment variable is used by default.
 
 =item HOSTNAME I<(String, Optional)>
 
-The IP address of the computer where the PostgreSQL B<DATABASE> is hosted.  The
-B<localhost> is used by default.
+The IP address of the computer where the PostgreSQL B<DATABASE> is hosted.  
+Either the content of the I<PGHOST> environment variable or a value of
+B<127.0.0.1> is used by default.
 
 =item PASSWORD I<(String, Optional)>
 
-The password of the B<USERNAME> that is accessing the PostgreSQL database.  A blank
-B<PASSWORD> is used by default.
+The password of the B<USERNAME> that is accessing the PostgreSQL database.  The
+content of the I<PGPASSWORD> environment variable is used by default.
+
+=item PORT I<(String, Optional)>
+
+The IP address port number of the computer where the PostgreSQL B<DATABASE> is
+hosted.  Either the content of the I<PGPORT> environment variable or a value of
+B<5432> I<(five four three two)> is used by default.
 
 =item PrintError I<(String, Optional)>
 
@@ -239,8 +247,8 @@ means errors will not be output in this way.  Errors are output by default.
 
 =item USERNAME I<(String, Optional)>
 
-The user that is accessing the PostgreSQL database.  A blank B<USERNAME> is used by
-default.
+The user that is accessing the PostgreSQL database.  The content of the
+I<PGUSER> environment variable is used by default.
 
 =back
 
@@ -259,21 +267,28 @@ sub connect {
             {
                 INPUT => [
                     'dbi:Pg:dbname=', {
-                        DEFAULT => '',
+                        DEFAULT => $ENV{'PGDATABASE'} || '',
                         NAME => 'DATABASE',
                         REF => '',
                     },
                     ';host=', {
-                        DEFAULT => 'localhost',
+                        DEFAULT => $ENV{'PGHOST'} || '127.0.0.1',
                         NAME => 'HOSTNAME',
+                        REF => '',
+                    },
+                    ';port=', {
+                        DEFAULT => $ENV{'PGPORT'} || '5432',
+                        NAME => 'PORT',
                         REF => '',
                     }
                 ],
                 REF => '',
             }, {
+                DEFAULT => $ENV{'PGUSER'} || undef,
                 NAME => 'USERNAME',
                 REF => '',
             }, {
+                DEFAULT => $ENV{'PGPASSWORD'} || undef,
                 NAME => 'PASSWORD',
                 REF => '',
             }, {
