@@ -5,3 +5,5 @@ Revision history for Perl extension Anansi::Database::PostgreSQL.
 		-AX Anansi::Database::PostgreSQL
 0.02  Thu Jun 06 14:00:03 2013
 	- modified "connect" to use environment variables and a PORT parameter.
+0.03  Thu Jun 06 20:08:31 2013
+	- modified the POD to accommodate changes to "Anansi::Class".
